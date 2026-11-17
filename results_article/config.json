@@ -1,0 +1,55 @@
+{
+  "smoke_test": false,
+  "datasets": [
+    "unsw",
+    "cicids2017"
+  ],
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5
+  ],
+  "split_modes": [
+    "iid",
+    "official"
+  ],
+  "unsw_dir": "/content/drive/MyDrive/datasets/ids/UNSW-NB15",
+  "cic_dir": "/content/drive/MyDrive/datasets/ids/CIC-IDS2017",
+  "out_dir": "./triage_results",
+  "max_rows_per_dataset": 400000,
+  "cal_frac": 0.2,
+  "test_frac": 0.2,
+  "clip_quantile": 0.999,
+  "drop_leaky_cic": true,
+  "delta_stage1": 0.01,
+  "gamma": 0.1,
+  "alpha_aps": 0.05,
+  "analyst_budget": 0.02,
+  "s1_n_estimators": 40,
+  "s1_max_depth": 9,
+  "s1_min_samples_leaf": 25,
+  "s2_n_estimators": 250,
+  "s2_max_depth": 8,
+  "s2_learning_rate": 0.06,
+  "use_smote": false,
+  "s2_multi_class_weight": "balanced",
+  "aps_randomized": false,
+  "conformal_score": "lac",
+  "lambda_grid_max": 1.0,
+  "al_rounds": 4,
+  "al_budget_per_round": 1500,
+  "analyst_error_rates": [
+    0.0,
+    0.05,
+    0.1,
+    0.2
+  ],
+  "shap_n_samples": 250,
+  "deletion_steps": 12,
+  "latency_probe_n": 2000,
+  "figure_dpi": 300,
+  "verbose": true
+}

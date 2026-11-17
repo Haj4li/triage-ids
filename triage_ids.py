@@ -2258,6 +2258,15 @@ def main():
     log(f"lightgbm={_HAS_LGB}  xgboost={_HAS_XGB}  shap={_HAS_SHAP}")
     log(f"output dir: {os.path.abspath(CONFIG['out_dir'])}")
     save_json(CONFIG, "config.json")
+    # Library versions, so a rerun can be compared like for like.
+    _env = {"python": platform.python_version(), "platform": platform.platform()}
+    for _m in ("numpy", "pandas", "scipy", "sklearn", "lightgbm", "xgboost", "shap"):
+        try:
+            _env[_m] = __import__(_m).__version__
+        except Exception:
+            _env[_m] = None
+    save_json(_env, "environment.json")
+    log("versions: " + "  ".join(f"{k} {v}" for k, v in _env.items() if k != "platform"))
 
     ds_keys = ["synthetic"] if CONFIG["smoke_test"] else CONFIG["datasets"]
     all_records: List[Dict] = []

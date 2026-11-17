@@ -1,0 +1,35 @@
+\begin{table}[t]
+\centering
+\small
+\caption{TRIAGE vs.\ baselines at matched escalation rate. Mean $\pm$ std over seeds.}
+\begin{tabular}{llcccc}
+\toprule
+Dataset & Method & Acc. & F1$_{atk}$ & FNR & MCC \\
+\midrule
+CIC-IDS2017 / iid & \textbf{TRIAGE} & 0.9944 & 0.9859 & 0.0069 & 0.9824 \\
+ & Cascade-Entropy & 0.9944 & 0.9859 & 0.0069 & 0.9824 \\
+ & Cascade-MaxProb & 0.9944 & 0.9859 & 0.0069 & 0.9824 \\
+ & Cascade-Epistemic & 0.9944 & 0.9859 & 0.0069 & 0.9824 \\
+ & Cascade-Random & 0.9944 & 0.9859 & 0.0069 & 0.9824 \\
+ & Stage1-only & 0.9944 & 0.9859 & 0.0069 & 0.9824 \\
+ & Stage2-only (all traffic) & 0.9990 & 0.9975 & 0.0010 & 0.9969 \\
+\midrule
+UNSW-NB15 / iid & \textbf{TRIAGE} & 0.9497 & 0.9596 & 0.0635 & 0.8948 \\
+ & Cascade-Entropy & 0.9442 & 0.9551 & 0.0698 & 0.8836 \\
+ & Cascade-MaxProb & 0.9442 & 0.9551 & 0.0698 & 0.8836 \\
+ & Cascade-Epistemic & 0.9365 & 0.9489 & 0.0779 & 0.8678 \\
+ & Cascade-Random & 0.9309 & 0.9446 & 0.0791 & 0.8551 \\
+ & Stage1-only & 0.9282 & 0.9424 & 0.0810 & 0.8493 \\
+ & Stage2-only (all traffic) & 0.9450 & 0.9558 & 0.0693 & 0.8854 \\
+\midrule
+UNSW-NB15 / official & \textbf{TRIAGE} & 0.9040 & 0.9246 & 0.1347 & 0.8085 \\
+ & Cascade-Entropy & 0.8976 & 0.9194 & 0.1422 & 0.7963 \\
+ & Cascade-MaxProb & 0.8976 & 0.9194 & 0.1422 & 0.7963 \\
+ & Cascade-Epistemic & 0.8957 & 0.9178 & 0.1443 & 0.7927 \\
+ & Cascade-Random & 0.8954 & 0.9176 & 0.1448 & 0.7923 \\
+ & Stage1-only & 0.8949 & 0.9171 & 0.1456 & 0.7915 \\
+ & Stage2-only (all traffic) & 0.8987 & 0.9204 & 0.1393 & 0.7973 \\
+\bottomrule
+\end{tabular}
+\label{tab:main}
+\end{table}

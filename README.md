@@ -53,6 +53,34 @@ The main run also writes its own diagnostic figures (`fig_*.pdf`) to `triage_res
 
 All settings used in the article are the defaults in `CONFIG` (top of `triage_ids.py`): δ = 0.01, γ = 0.10, α = 0.05, analyst budget 2%, six seeds (0–5), at most 400,000 flows per dataset (stratified subsample).
 
+## Reproducing the article's exact numbers
+
+`results_article/` holds the outputs of the run reported in the article: `aggregate.json`, `all_records.json`, the active-learning records, `config.json`, `table_main.tex` and the Stage-2 sweep (`sensitivity_results.json`). Every table and figure can be regenerated from them without retraining anything:
+
+```bash
+python analysis.py results_article results_article/sensitivity_results.json
+python make_figures.py results_article results_article/sensitivity_results.json
+```
+
+**A fresh run gives very close but not bit-identical numbers.** Seeds, splits and settings are fixed, but tree learners and floating-point libraries change between versions. The article run used Python 3.13 with NumPy 2.1 and pandas 2.2 on Google Colab; a fresh run of this notebook on Colab (November 2026: NumPy 2.4.6, pandas 2.2.3) gave:
+
+| Quantity | Article run | Fresh run |
+|---|---|---|
+| UNSW-NB15 exch.: TRIAGE F1 / FNR / MCC | 0.9596 / 0.0635 / 0.8948 | 0.9596 / 0.0634 / 0.8948 |
+| UNSW-NB15 exch.: escalation rate | 16.2% | 16.1% |
+| UNSW-NB15 exch.: Stage-1 test risk (δ = 0.01), target met | 0.00816, 6/6 | 0.00791, 6/6 |
+| ΔF1 vs entropy cascade / vs Stage 2 on all traffic (wins) | +0.0045 / +0.0039 (6/6) | +0.0045 / +0.0039 (6/6) |
+| Missed-intrusion reduction vs Stage 1 alone | 21.6% | 22.0% |
+| Marginal coverage; worst class marginal → Mondrian | 0.9484; 0.810 → 0.900 | 0.9485; 0.804 → 0.895 |
+| UNSW-NB15 official: TRIAGE F1; test risk, target met | 0.9246; 0.0515, 0/6 | 0.9241; 0.0528, 0/6 |
+| UNSW-NB15 official: Backdoor coverage marginal → Mondrian | 0.211 → 0.833 | 0.212 → 0.832 |
+| UNSW-NB15 official: worst class under Mondrian | 0.554 | 0.542 |
+| CIC-IDS2017: TRIAGE F1; escalation at δ = 0.01 | 0.9859; 0% | 0.9861; 0% |
+| CIC-IDS2017 at δ = 5×10⁻⁴: escalation, F1 | 5.13%, 0.9970 | 5.56%, 0.9971 |
+| CIC-IDS2017: mean conformal set size | 3.33 (one degenerate seed) | 1.00 (no degenerate seed) |
+
+Every comparison and every qualitative conclusion is unchanged: the guarantee holds in all seeds under the exchangeable split and fails in all seeds under the official partition, TRIAGE wins every paired comparison in 6/6 seeds, and Mondrian calibration repairs the rare classes. The degenerate CIC-IDS2017 conformal calibration discussed in the article occurred in one seed of the article run and did not recur in the fresh run. Each run now records its library versions in `environment.json`.
+
 ## Runtime and environment
 
 On a free Colab CPU runtime the full main run takes several hours (6 seeds × 2 datasets, plus the official UNSW-NB15 partition, active learning and SHAP). The Stage-2 sweep adds about 3 hours. Every finished run is checkpointed to `triage_results/`; if a session is interrupted, run it again and it resumes.
@@ -68,6 +96,7 @@ The article's results were produced on Google Colab with Python 3.13, NumPy 2.1,
 | `stage2_sensitivity.py` | Optional Stage-2 sensitivity sweep (Table 6, Fig. 6) |
 | `analysis.py` | Effect sizes, risk-validity, per-class coverage and ANOVA statistics reported in the article |
 | `make_figures.py` | Redraws the article's Figs. 2–6 from the run outputs |
+| `results_article/` | Outputs of the run reported in the article |
 | `requirements.txt` | Python dependencies |
 
 ## License
