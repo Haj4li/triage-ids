@@ -1,0 +1,8 @@
+data/
+triage_results*/
+triage_smoke/
+triage_sensitivity/
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+*.zip
